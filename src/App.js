@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import ArticlePage from './Components/ArticlePage/ArticlePage'
 import {
   Button,
   Container,
@@ -213,14 +213,38 @@ ResponsiveContainer.propTypes = {
   children: PropTypes.node,
 }
 
-const HomepageLayout = () => (
+
+class App extends Component {
+
+  ToArticle() {
+    this.setState({
+      ToArticle: true
+    })
+  }
+  constructor(props){
+      super(props);
+    this.state = {
+        ToArticle:false,
+        ToResearch:false,
+        ToContact:false,
+        ToLogin:false,
+        ToSignUp:false,
+
+    }; 
+    this.ToArticle = this.ToArticle.bind(this);
+  }
+
+
+  
+  render() {
+    let view =  (
   <ResponsiveContainer>
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Grid container stackable verticalAlign='middle'>
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              We Help Companies and Companions
+              Designed and implemented by Leon Zhang
             </Header>
             <p style={{ fontSize: '1.33em' }}>
               We can give your company superpowers to do things that they never thought possible.
@@ -272,9 +296,7 @@ const HomepageLayout = () => (
           Breaking The Grid, Grabs Your Attention
         </Header>
         <p style={{ fontSize: '1.33em' }}>
-          Instead of focusing on content creation and hard work, we have learned how to master the
-          art of doing nothing by providing massive amounts of whitespace and generic content that
-          can seem massive, monolithic and worth your attention.
+          CNN have been established as a powerful class of models for image recognition problems.This time, we study multiple approaches for extending the connectiity of a CNN in time domain to take advantage of local spatio-temporal information and....
         </p>
         <Button as='a' size='large'>
           Read More
@@ -294,7 +316,7 @@ const HomepageLayout = () => (
         <p style={{ fontSize: '1.33em' }}>
             While putting together a computer system can be very simple, there can be many factors at play that can influence the build.  In this experiment, we designed .......
         </p>
-        <Button as='a' size='large'>
+        <Button onClick={this.ToArticle} as='a' size='large'>
          Read More
         </Button>
       </Container>
@@ -333,5 +355,21 @@ const HomepageLayout = () => (
       </Container>
     </Segment>
   </ResponsiveContainer>
-)
-export default HomepageLayout
+);
+
+
+
+    if (this.state.ToArticle === true){
+      view = (
+        <ArticlePage/>
+      );
+    }
+    return (
+      view
+    );
+
+  }
+}
+
+
+export default App;
