@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './logo.png';
+import { fausersecret} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './App.css';
+
+import ContactPage from './Components/ContactPage/ContactPage'
 import ArticlePage from './Components/ArticlePage/ArticlePage'
 import {
   Button,
@@ -47,7 +51,7 @@ const HomepageHeading = ({ mobile }) => (
     />
     <Header
       as='h2'w
-      content='House of Computer System and Hardware enthusiasts '
+      content='Social Platform of Computer System and Hardware enthusiasts '
       inverted
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
@@ -160,8 +164,9 @@ class MobileContainer extends Component {
             Home
           </Menu.Item>
           <Menu.Item as='a'>Work</Menu.Item>
-          <Menu.Item as='a'>Company</Menu.Item>
-          <Menu.Item as='a'>Careers</Menu.Item>
+          <Menu.Item as='a'>Articles</Menu.Item>
+          <Menu.Item as='a'>Research</Menu.Item>
+          <Menu.Item as='a'>Contact</Menu.Item>
           <Menu.Item as='a'>Log in</Menu.Item>
           <Menu.Item as='a'>Sign Up</Menu.Item>
         </Sidebar>
@@ -215,6 +220,12 @@ ResponsiveContainer.propTypes = {
 
 
 class App extends Component {
+  state = {users:[]}
+  componentDidMount(){
+    fetch('/users')
+    .then(res=> res.json())
+    .then(users=> this.setState({}))
+  }
 
   ToArticle() {
     this.setState({
@@ -244,27 +255,25 @@ class App extends Component {
         <Grid.Row>
           <Grid.Column width={8}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              Designed and implemented by Leon Zhang
+              Our Mission 
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              We can give your company superpowers to do things that they never thought possible.
-              Let us delight your customers and empower your needs... through pure data analytics.
+              We are currently aimed to expland our site and increase the volume of our publicactions. 
             </p>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              Allow new creators to conduct their research and 
+              Our Goal
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              Yes that's right, you thought it was the stuff of dreams, but even bananas can be
-              bioengineered.
+              Encourage enthusiasts to conduct their research and innovate their ideas.Yes that's right, send your articles to us and we will select the best ones to publish on our site.
             </p>
           </Grid.Column>
           <Grid.Column floated='right' width={6}>
-            <Image bordered rounded size='large' src='/images/wireframe/white-image.png' />
+            <Image bordered rounded size='large' src={logo} alt="logo" />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign='center'>
-            <Button size='huge'>Check Them Out</Button>
+            <Button size='huge'>Join Us</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -274,17 +283,19 @@ class App extends Component {
         <Grid.Row textAlign='center'>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "What a Company"
+              "What a great platform"
             </Header>
-            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+                <p style={{ fontSize: '1.33em' }}> <Icon name='user' size='small' />
+                  <b>Anonymous</b> Master Student from UofT
+            </p>
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
-              "I shouldn't have gone with their competitor."
+              "I wish I can learn this much before"
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              <Image avatar src='/images/avatar/large/nan.jpg' />
-              <b>Nan</b> Chief Fun Officer Acme Toys
+                  <Icon name='user' size='small' />
+                  <b>Anonymous</b> Compute Science Student from UofT
             </p>
           </Grid.Column>
         </Grid.Row>
@@ -292,15 +303,7 @@ class App extends Component {
     </Segment>
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Container text>
-        <Header as='h3' style={{ fontSize: '2em' }}>
-          Breaking The Grid, Grabs Your Attention
-        </Header>
-        <p style={{ fontSize: '1.33em' }}>
-          CNN have been established as a powerful class of models for image recognition problems.This time, we study multiple approaches for extending the connectiity of a CNN in time domain to take advantage of local spatio-temporal information and....
-        </p>
-        <Button as='a' size='large'>
-          Read More
-        </Button>
+      
         <Divider
           as='h4'
           className='header'
@@ -328,18 +331,18 @@ class App extends Component {
             <Grid.Column width={3}>
               <Header inverted as='h4' content='About' />
               <List link inverted>
-                <List.Item as='a'>Sitemap</List.Item>
+                <List.Item as='a'>Location</List.Item>
                 <List.Item as='a'>Contact Us</List.Item>
                 <List.Item as='a'>Religious Ceremonies</List.Item>
-                <List.Item as='a'>Gazebo Plans</List.Item>
+                <List.Item as='a'>Our Team</List.Item>
               </List>
             </Grid.Column>
             <Grid.Column width={3}>
               <Header inverted as='h4' content='Services' />
               <List link inverted>
                 <List.Item as='a'>FAQ</List.Item>
-                <List.Item as='a'>How To Access</List.Item>
-                <List.Item as='a'>Favorite X-Men</List.Item>
+                <List.Item as='a'>Discussion Board</List.Item>
+                <List.Item as='a'>Premium Membership</List.Item>
               </List>
             </Grid.Column>
             <Grid.Column width={7}>

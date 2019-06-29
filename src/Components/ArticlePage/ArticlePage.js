@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import React, { Component } from 'react'
-
+import processors from './processors.png'
+import graph from './graph.png'
 import {
     Container,
     Divider,
@@ -57,7 +58,7 @@ const LeftImage = () => (
     <Image
         floated='left'
         size='medium'
-        src='./Processors.png'
+        src={processors} alt="processors"
         style={{ margin: '2em 2em 2em -4em' }}
     />
 )
@@ -66,7 +67,7 @@ const RightImage = () => (
     <Image
         floated='right'
         size='medium'
-        src='../img/BenchChart_one.png'
+        src={graph} alt="graph"
       style={{ margin: '2em -4em 2em 2em' }}
     />
 )
