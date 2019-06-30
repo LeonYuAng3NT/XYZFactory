@@ -226,7 +226,11 @@ class App extends Component {
     .then(res=> res.json())
     .then(users=> this.setState({}))
   }
-
+  ToContact(){
+    this.setState({
+      ToContact:true
+    })
+  }
   ToArticle() {
     this.setState({
       ToArticle: true
@@ -243,6 +247,7 @@ class App extends Component {
 
     }; 
     this.ToArticle = this.ToArticle.bind(this);
+    this.ToContact = this.ToContact.bind(this);
   }
 
 
@@ -273,7 +278,7 @@ class App extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign='center'>
-            <Button size='huge'>Join Us</Button>
+            <Button onClick={this.toContact} size='huge'>Join Us</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -362,9 +367,14 @@ class App extends Component {
 
 
 
-    if (this.state.ToArticle === true){
+    if (this.state.ToContact === true){
       view = (
-        <ArticlePage/>
+        <ContactPage />
+      );
+    }
+    if (this.state.ToArticle === true) {
+      view = (
+        <ArticlePage />
       );
     }
     return (

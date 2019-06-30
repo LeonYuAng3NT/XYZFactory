@@ -2,7 +2,13 @@ import _ from 'lodash'
 import React, { Component } from 'react'
 import processors from './processors.png'
 import graph from './graph.png'
+import logo from './logo.png'
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ContactPage from '../ContactPage/ContactPage'
+import App from '../../App.js';
+
 import {
+    Button,
     Container,
     Divider,
     Dropdown,
@@ -78,6 +84,7 @@ const Paragraph = () => (
             'While putting together a computer system can be very simple, there can be many factors at play that can influence the build.  In this experiment, we designed an program to show the effects of different overclocks on the memory and discover various results that one may not have considered in their build.',
             
             '\r\nTo start off, we implement a memory benchmark that runs simulates a workload with a specified N number of threads that is writing directly to the memory with a memset call. ',
+            
             'Inside, the program there is two parallelized versions using OpenMP. First, memTestNT parallelize such that all threads do the exact same specified amount of work separately. The second function, memTestNT1, parallelize such that all threads contribute to a for loop that specifies the total workload.\r\nWhile this is not the most effective way to write to memory from the excess instructions of the calls, it is the most intuitive way. This shows what typical code for writing to memory and the bandwidth available for the program looks like in terms of when ran on different systems. For more information about the test done, please refer to the following program:\r\nhttps:\/\/github.com\/dontbenchme\/mem\r\n',
 
          
@@ -88,7 +95,10 @@ const Paragraph = () => (
 const SecondParagraph = () => (
     <p>
         {[
-            'The main purpose of this is to test the bandwidth available for this operation and compare various memory configurations as well as various systems. For our initial testing, the benchmark will run on following systems to attain the results for the comparison:\r\nRyzen 5 2600 @4.0GHz, dual channel 8GB DDR4 @2666MHz 16-16-16-39\r\nRyzen 5 2600 @4.0GHz, Single channel 8GB DDR4 @2666MHz 16-16-16-39\r\nRyzen 7 1700 @3.8GHz, dual channel 8GB DDR4 @2666MHz 16-16-16-39\r\nIntel i7-3632-QM, dual channel 8GB DDR3 @1666MHz 11-11-11-28\r\nIntel i7-3632-QM, Single channel 8GB DDR3 @1666MHz 11-11-11-28\r\nintel i7-7700K @4.2GHz, Dual channel 32GB DDR4 @3000MHz 15-17-17-35\r\nSnapdragon 845 SoC (Using Samsung S9+ with Termux)\r\nAMD Opteron 6348 x4, quad channel 64GB DDR3\r\nThe following chart shows the results of the benchmarks:\r\n\r\n\r\n\r\n\r\n\r\nIn terms of the two options to write to memory, there was not much significant differences, as the outcome is mainly dependent on the system that the program runs on.\r\n\r\n\r\nAs expected, we see single channel mode to be on the bottom. But what is more interesting is that under this method of writing to memory, intel does not scale with more threads whatsoever and the bandwidth only decrease as the number of threads increase which is potentially due to contention of resources and extra instructions. Surprisingly, the Snapdragon system actually beats AMD for single threaded as well as the absolute maximum while the bandwidth slightly increases as the number of threads increase. As for our Ryzen system, the bandwidth appears to be maxed out at 2 threads and decreases as the number of threads increase. Lastly for our Opteron, we would give it an E for effort as it does scale from an increase in threads, it does not have a high throughput at all compared to the others.',
+            'The main purpose of this is to test the bandwidth available for this operation and compare various memory configurations as well as various systems. For our initial testing, the benchmark will run on following systems to attain the results for the comparison:\r\nRyzen 5 2600 @4.0GHz, dual channel 8GB DDR4 @2666MHz 16-16-16-39\r\nRyzen 5 2600 @4.0GHz, Single channel 8GB DDR4 @2666MHz 16-16-16-39\r\nRyzen 7 1700 @3.8GHz, dual channel 8GB DDR4 @2666MHz 16-16-16-39\r\nIntel i7-3632-QM, dual channel 8GB DDR3 @1666MHz 11-11-11-28\r\nIntel i7-3632-QM, Single channel 8GB DDR3 @1666MHz 11-11-11-28\r\nintel i7-7700K @4.2GHz, Dual channel 32GB DDR4 @3000MHz 15-17-17-35\r\nSnapdragon 845 SoC (Using Samsung S9+ with Termux)\r\nAMD Opteron 6348 x4, quad channel 64GB DDR3\r\n',
+            'The following chart shows the results of the benchmarks:\r\n\r\n\r\n\r\n\r\n\r\nIn terms of the two options to write to memory, there was not much significant differences, as the outcome is mainly dependent on the system that the program runs on.\r\n\r\n\r\nAs expected, we see single channel mode to be on the bottom. But what is more interesting is that under this method of writing to memory, intel does not scale with more threads whatsoever and the bandwidth only decrease as the number of threads increase which is potentially due to contention of resources and extra instructions.',
+            'Surprisingly, the Snapdragon system actually beats AMD for single threaded as well as the absolute maximum while the bandwidth slightly increases as the number of threads increase. As for our Ryzen system, the bandwidth appears to be maxed out at 2 threads and decreases as the number of threads increase. ',
+             'Lastly for our Opteron, we would give it an E for effort as it does scale from an increase in threads, it does not have a high throughput at all compared to the others.',
         ].join('')}
     </p>
 )
@@ -102,9 +112,30 @@ const ThirdParagraph = () => (
 )
 
 export default class StickyLayout extends Component {
-    state = {
-        menuFixed: false,
-        overlayFixed: false,
+    ToContact() {
+        this.setState({
+            ToContact: true
+        })
+    }
+    ToMain() {
+        this.setState({
+            ToMain: true
+        })
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            ToMain: false,
+            ToResearch: false,
+            ToContact: false,
+            ToLogin: false,
+            ToSignUp: false,
+            menuFixed: false,
+            overlayFixed: false,
+
+        };
+        this.ToMain = this.ToMain.bind(this);
+        this.ToContact = this.ToContact.bind(this);
     }
 
     handleOverlayRef = (c) => {
@@ -124,9 +155,9 @@ export default class StickyLayout extends Component {
     unStickTopMenu = () => this.setState({ menuFixed: false })
 
     render() {
+      
         const { menuFixed, overlayFixed, overlayRect } = this.state
-
-        return (
+        let view = (
             <div>
                 {/* Heads up, style below isn't necessary for correct work of example, simply our docs defines other
             background color.
@@ -160,11 +191,11 @@ export default class StickyLayout extends Component {
                     >
                         <Container text>
                             <Menu.Item>
-                                <Image size='mini' src='/logo.png' />
+                                <Image size='mini' src={logo} alt="logo" />
                             </Menu.Item>
-                            <Menu.Item header>Project Name</Menu.Item>
-                            <Menu.Item as='a'>Blog</Menu.Item>
-                            <Menu.Item as='a'>Articles</Menu.Item>
+                            <Menu.Item header>Memory Benchmark</Menu.Item>
+                            <Menu.Item as='a'>CPU</Menu.Item>
+                            <Menu.Item as='a' >Articles</Menu.Item>
 
                             <Menu.Menu position='right'>
                                 <Dropdown text='Dropdown' pointing className='link item'>
@@ -229,6 +260,15 @@ export default class StickyLayout extends Component {
 
 
                     <Paragraph />
+                    <Router 
+                        path="https://github.com/dontbenchme/mem"
+                        render={
+                         () => 
+                             <h3>https://github.com/dontbenchme/mem</h3>
+                        }
+                    
+                    
+                    />
                     <RightImage />
 
      
@@ -236,10 +276,13 @@ export default class StickyLayout extends Component {
                     <LeftImage />
 
                     <ThirdParagraph />
-                    <RightImage />
+                
 
-
-                  
+                    <Grid.Row>
+                        <Grid.Column textAlign='center'>
+                            <Button onClick={this.ToMain} size='huge'>Back to Main Page</Button>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Container>
 
                 <Segment inverted style={{ margin: '5em 0em 0em', padding: '5em 0em' }} vertical>
@@ -300,7 +343,20 @@ export default class StickyLayout extends Component {
                         </List>
                     </Container>
                 </Segment>
-            </div>
-        )
+            </div>);
+        if (this.state.ToContact === true) {
+            view = (
+                <ContactPage />
+            );
+        }
+        if (this.state.ToMain === true) {
+            view = (
+                <App />
+            );
+        }
+        return (
+            view
+        );
+        
     }
 }
