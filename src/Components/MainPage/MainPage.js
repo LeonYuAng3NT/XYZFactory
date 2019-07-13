@@ -9,7 +9,7 @@ class App extends Component {
   }
   ToContact(){
     this.setState({
-      ToContact:true
+      ToContact: true
     })
   }
   ToArticle() {
@@ -59,7 +59,7 @@ class App extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column textAlign='center'>
-            <Button onClick={this.toContact} size='huge'>Join Us</Button>
+                <Button onClick={this.ToContact} as='a' size='huge'>Join Us</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -119,7 +119,7 @@ class App extends Component {
               <List link inverted>
                 <List.Item as='a'>Location</List.Item>
                 <List.Item as='a'>Contact Us</List.Item>
-                <List.Item as='a'>Religious Ceremonies</List.Item>
+                <List.Item as='a'>Research Opportunities</List.Item>
                 <List.Item as='a'>Our Team</List.Item>
               </List>
             </Grid.Column>

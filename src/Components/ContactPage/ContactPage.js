@@ -70,6 +70,28 @@ const Paragraph = () => (
 )
 
 export default class StickyLayout extends Component {
+
+  ToMain() {
+    this.setState({
+      ToMain: true
+    })
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      ToMain: false,
+      ToResearch: false,
+      ToContact: false,
+      ToLogin: false,
+      ToSignUp: false,
+      menuFixed: false,
+      overlayFixed: false,
+
+    };
+
+    this.ToMain = this.ToMain.bind(this);
+
+  }
     state = {
         menuFixed: false,
         overlayFixed: false,
@@ -93,8 +115,8 @@ export default class StickyLayout extends Component {
 
     render() {
         
-              
-          let view =  (
+      const { menuFixed, overlayFixed, overlayRect } = this.state
+      let view =  (
   <ResponsiveContainer>
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Grid container stackable verticalAlign='middle'>
@@ -191,7 +213,9 @@ export default class StickyLayout extends Component {
   </ResponsiveContainer>
 );
 
-
+      return (
+        view
+      );
 
     }
 }
